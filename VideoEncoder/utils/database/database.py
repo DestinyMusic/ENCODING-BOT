@@ -39,7 +39,9 @@ class Database:
             upload_as_doc=False,
             crf=22,
             resize=False,
-            thumbnail=None
+            thumbnail=None,
+            motion_watermark=False,
+            motion_opacity='50'
         )
 
     async def add_user(self, id):
@@ -184,6 +186,22 @@ class Database:
     async def get_watermark(self, id):
         user = await self._get_user(id)
         return user.get('watermark', False)
+
+    # Motion Watermark
+    async def set_motion_watermark(self, id, motion):
+        await self.col.update_one({'id': id}, {'$set': {'motion_watermark': motion}}, upsert=True)
+
+    async def get_motion_watermark(self, id):
+        user = await self._get_user(id)
+        return user.get('motion_watermark', False)
+
+    # Motion Opacity
+    async def set_motion_opacity(self, id, opacity):
+        await self.col.update_one({'id': id}, {'$set': {'motion_opacity': opacity}}, upsert=True)
+
+    async def get_motion_opacity(self, id):
+        user = await self._get_user(id)
+        return user.get('motion_opacity', '50')
 
     # Preset
     async def set_preset(self, id, preset):

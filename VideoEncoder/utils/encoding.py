@@ -269,6 +269,52 @@ async def encode(filepath, message, msg, audio_map=None):
             watermark += ','
         watermark += f'subtitles={subtitles_path}'
 
+    # Motion Watermark
+    m_watermark = await db.get_motion_watermark(message.from_user.id)
+    if m_watermark:
+        m_opacity = await db.get_motion_opacity(message.from_user.id)
+        if m_opacity == '50':
+            alpha = '80'
+        elif m_opacity == '75':
+            alpha = '40'
+        elif m_opacity == '100':
+            alpha = '00'
+        else:
+            alpha = '80'
+
+        motion_text = "Watermark"
+        ass_file = 'VideoEncoder/utils/extras/watermark.ass'
+        if os.path.exists(ass_file):
+            with open(ass_file, 'r', encoding='utf-8') as f:
+                for line in f:
+                    if line.startswith('Title:'):
+                        motion_text = line.replace('Title:', '').strip()
+                        break
+        
+        motion_ass_content = f"""[Script Info]
+ScriptType: v4.00+
+PlayResX: 1920
+PlayResY: 1080
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: MotionStyle,Arial,48,&H{alpha}FFFFFF,&H000000FF,&H{alpha}000000,&H{alpha}000000,0,0,0,0,100,100,0,0,1,2,1,2,10,10,20,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,9:59:59.99,MotionStyle,,0,0,0,Banner;10;0;50,{motion_text}
+"""
+        motion_ass_file = 'VideoEncoder/utils/extras/motion.ass'
+        with open(motion_ass_file, 'w', encoding='utf-8') as f:
+            f.write(motion_ass_content)
+            
+        m_filter = f"subtitles={motion_ass_file}"
+        
+        if watermark == '':
+            watermark = f"-vf {m_filter}"
+        else:
+            watermark += f",{m_filter}"
+
     # Sample rate
     sr = await db.get_samplerate(message.from_user.id)
     if sr == '44.1K':

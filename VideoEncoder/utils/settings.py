@@ -269,7 +269,7 @@ async def AudioSettings(event: Message, user_id: int):
 async def ExtraSettings(event: Message, user_id: int):
     try:
         await event.edit(
-            text="Here's Your Subtitle Settings<a href='https://ibb.co/RGx4RmDg'>:</a>",
+            text="Here's Your Extra Settings<a href='https://ibb.co/RGx4RmDg'>:</a>",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [InlineKeyboardButton(
@@ -282,6 +282,7 @@ async def ExtraSettings(event: Message, user_id: int):
                     [InlineKeyboardButton(
                         f"Watermark Settings", callback_data="Watermark")],
                     [InlineKeyboardButton(f"Metadata {'☑️' if ((await db.get_metadata_w(user_id)) is True) else ''}", callback_data="triggerMetadata"), InlineKeyboardButton(f"Video {'☑️' if ((await db.get_watermark(user_id)) is True) else ''}", callback_data="triggerVideo")],
+                    [InlineKeyboardButton(f"Motion {'☑️' if ((await db.get_motion_watermark(user_id)) is True) else ''}", callback_data="triggerMotion"), InlineKeyboardButton(f"Opacity: {await db.get_motion_opacity(user_id)}%", callback_data="triggerOpacity")],
                     [InlineKeyboardButton(
                         f"Back", callback_data="OpenSettings")]
                 ]

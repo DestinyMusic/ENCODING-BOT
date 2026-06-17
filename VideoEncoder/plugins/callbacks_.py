@@ -79,6 +79,25 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
                 await db.set_watermark(cb.from_user.id, watermark=True)
             await ExtraSettings(cb.message, user_id=cb.from_user.id)
 
+        # Motion Watermark
+        elif cb.data == "triggerMotion":
+            if await db.get_motion_watermark(cb.from_user.id):
+                await db.set_motion_watermark(cb.from_user.id, motion=False)
+            else:
+                await db.set_motion_watermark(cb.from_user.id, motion=True)
+            await ExtraSettings(cb.message, user_id=cb.from_user.id)
+
+        # Motion Opacity
+        elif cb.data == "triggerOpacity":
+            op = await db.get_motion_opacity(cb.from_user.id)
+            if op == '50':
+                await db.set_motion_opacity(cb.from_user.id, opacity='75')
+            elif op == '75':
+                await db.set_motion_opacity(cb.from_user.id, opacity='100')
+            else:
+                await db.set_motion_opacity(cb.from_user.id, opacity='50')
+            await ExtraSettings(cb.message, user_id=cb.from_user.id)
+
         # Subtitles
         elif cb.data == "triggerHardsub":
             if await db.get_hardsub(cb.from_user.id):

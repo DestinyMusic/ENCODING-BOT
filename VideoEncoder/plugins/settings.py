@@ -206,7 +206,7 @@ Hardsub {'☑️' if ((await db.get_hardsub(user_id)) is True) else ''} | Softsu
 
 <b>©️ Watermark Settings</b>
 Metadata: {metadata}
-Video {'☑️' if ((await db.get_watermark(user_id)) is True) else ''}
+Video {'☑️' if ((await db.get_watermark(user_id)) is True) else ''} | Motion {'☑️' if ((await db.get_motion_watermark(user_id)) is True) else ''} (Opacity: {await db.get_motion_opacity(user_id)}%)
 
 <b>🔊 Audio Settings</b>
 Codec: {audio}
