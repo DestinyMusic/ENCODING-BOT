@@ -1,3 +1,13 @@
+---
+title: Encoding Bot
+emoji: 🎬
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+pinned: false
+app_port: 7860
+---
+
 <div align="center">
   <img src="https://prod.assets.earlygamecdn.com/images/Chisa.jpg?transform=Banner+Webp" alt="VideoEncoder Bot" width="100%">
 
@@ -94,53 +104,3 @@ Ensure you have **Python 3.9+** and **FFmpeg** installed on your system.
 1. Install required dependencies:
    ```bash
    pip3 install -r requirements.txt
-   ```
-2. Start the bot:
-   ```bash
-   python3 -m VideoEncoder
-   ```
-
-### 🐳 Docker
-
-Deploy effortlessly using Docker containers:
-
-1. Build the Docker image:
-   ```bash
-   docker build -t video-encoder .
-   ```
-2. Run the container:
-   ```bash
-   docker run -d --env-file config.env video-encoder
-   ```
-
-### ☁️ Heroku Deployment
-
-> [!WARNING]
-> If you are deploying this bot to Heroku, you **must** add the FFmpeg buildpack alongside the default Python buildpack. Without it, the bot will fail to process videos and throw a `Could not retrieve media streams` error.
-
-1. Deploy the app from your GitHub repository or via Heroku CLI.
-2. Navigate to your app's **Settings** tab in the Heroku Dashboard.
-3. Scroll down to the **Buildpacks** section and click **Add buildpack**.
-4. Paste the following URL and click Save:
-   ```text
-   https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git
-   ```
-5. Verify that both `heroku/python` and the FFmpeg buildpack are listed.
-6. Go to the **Deploy** tab and trigger a **new deployment** to apply the buildpacks.
-
----
-
-## 📝 Important Notes
-
-* **Task Limiting**: To ensure fair usage and prevent crashes, each user is strictly limited to one active encoding task at a time.
-* **Settings Isolation**: User configurations are fully isolated. No one can overwrite another person's settings.
-
----
-
-## 💼 Custom Modifications & Support
-
-Need custom modifications, private features, or a personalized bot setup? 
-
-💌 **DM the developer on Telegram:** [@cantarella_wuwa](https://t.me/cantarella_wuwa)
-
-_Buy custom bots, advanced features, automation systems, Telegram CDN setups, encoding solutions, and more!_
