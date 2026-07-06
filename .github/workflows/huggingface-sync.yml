@@ -38,14 +38,21 @@ jobs:
           # 3. Clean up cache files
           find . -type d -name "__pycache__" -exec rm -r {} + || true
 
-          # 4. Initialize Git LFS (Keeping this standard for all your HF repos)
+          # 4. Initialize Git LFS and explicitly track binaries HF blocks
           git lfs install
-          # Catch any large files over 9MB
+          git lfs track "*.ttf"
+          git lfs track "*.pyc"
+          git lfs track "*.so"
+          git lfs track "*.sqlite3"
+          git lfs track "*.db"
+          
+          # Catch any remaining large files over 9MB
           find . -type f -size +9M -exec git lfs track {} +
 
           # 5. Commit and Force Push
           git add .
-          git commit -m "Auto-sync to Hugging Face Space"
+          git commit -m "Auto-sync to Hugging Face Space with LFS tracking"
           git push --force "https://${HF_USER}:${HF_TOKEN}@huggingface.co/spaces/${HF_SPACE_ID}.git" main
 
           echo "Pushed successfully to https://huggingface.co/spaces/${HF_SPACE_ID}"
+          
