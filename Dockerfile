@@ -1,5 +1,5 @@
 # 1. Base Image
-FROM python:3.10-slim-bullseye
+FROM python:3.11-slim-bookworm
 
 # 2. Environment Variables
 ENV DEBIAN_FRONTEND=noninteractive
