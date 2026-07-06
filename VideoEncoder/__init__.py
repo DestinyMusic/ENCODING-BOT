@@ -31,7 +31,7 @@ encode_dir = getenv("ENCODE_DIR")
 
 owner = list(set(int(x) for x in getenv("OWNER_ID").split()))
 sudo_users = list(set(int(x) for x in getenv("SUDO_USERS").split()))
-everyone = list(set(int(x) for x in getenv("EVERYONE_CHATS").split()))
+everyone = list(set(int(x) for x in getenv("EVERYONE_CHATS", "").split()))
 all = everyone + sudo_users + owner
 
 try:
